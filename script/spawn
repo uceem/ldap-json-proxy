@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# This script exists solely to make the su syntax simpler.
+
+RAILS_ENV=production
+export RAILS_ENV
+
+script_dir=`dirname "$0"`
+APP_ROOT=`dirname "$script_dir"`
+cd $APP_ROOT || exit 1
+
+bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb
+
+exit 0
+
+

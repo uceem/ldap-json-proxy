@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -e
+set -x
+
+branch=`git branch | egrep '^\*' | awk '{print $2}'`
+
+if [ "$branch" != "master" ]; then
+    echo "WARNING: Do you want to push from branch: $branch ?"
+    read answer
+    if [ "$answer" != "y" ]; then
+	echo "bailing for non-y answer"
+	exit 1
+    fi
+    dest="${branch}:master"
+else
+    dest=master
+fi
+
+cwd=`/bin/pwd`
+dirname=`dirname "$cwd"`
+appname=`basename "$dirname"`
+
+RAILS_ENV=production
+export RAILS_ENV
+
+sudo /etc/init.d/$appname stop
+
+git pull origin $branch
+
+bundle install --deployment --without development:test
+bundle exec rake assets:precompile
+
+bundle exec rake db:migrate
+bundle exec rake db:seed
+
+sudo /etc/init.d/$appname start
+
+exit 0
+
+
