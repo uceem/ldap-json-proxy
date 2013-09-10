@@ -18,8 +18,7 @@ else
 fi
 
 cwd=`/bin/pwd`
-dirname=`dirname "$cwd"`
-appname=`basename "$dirname"`
+appname=`basename "$cwd"`
 
 RAILS_ENV=production
 export RAILS_ENV

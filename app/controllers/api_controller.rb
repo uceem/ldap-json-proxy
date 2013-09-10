@@ -71,8 +71,8 @@ private
       return unauth('Invalid parameter: missing api token')
     end
     #logger.info "REQUIRE STD API TOKEN: #{params[:api_token]}"
-    raise "no api token" if ENV['REST_LDAP_API_TOKEN'].blank?
-    if params[:api_token] != ENV['REST_LDAP_API_TOKEN']
+    raise "no api token" if ENV['LDAP_JSON_PROXY_API_TOKEN'].blank?
+    if params[:api_token] != ENV['LDAP_JSON_PROXY_API_TOKEN']
       return unauth('Invalid parameter: bad api token')
     end
   end
