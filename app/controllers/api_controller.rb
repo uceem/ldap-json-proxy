@@ -39,20 +39,25 @@ class ApiController < ApplicationController
     end
     ldap_settings[:encryption] = :simple_tls if params[:encryption].to_s == 'simple_tls'
 
-    ldap = Net::LDAP.new ldap_settings
-    query_filter = Net::LDAP::Filter.construct params[:filter].to_s
-    basedn = params[:base].to_s
+    begin
+      ldap = Net::LDAP.new ldap_settings
+      query_filter = Net::LDAP::Filter.construct params[:filter].to_s
+      basedn = params[:base].to_s
 
-    results = []
-    ldap.search(:base => basedn, :filter => query_filter) do |entry|
-      results << entry
-      puts "DN: #{entry.dn}"
-      entry.each do |attribute, values|
-        puts "   #{attribute}:"
-        values.each do |value|
-          puts "      --->#{value}"
+      results = []
+      ldap.search(:base => basedn, :filter => query_filter) do |entry|
+        results << entry
+        puts "DN: #{entry.dn}"
+        entry.each do |attribute, values|
+          puts "   #{attribute}:"
+          values.each do |value|
+            puts "      --->#{value}"
+          end
         end
       end
+    rescue Exception => e
+      render :status=>400, :json => { message: e.message }
+      return
     end
 
     puts ldap.get_operation_result
