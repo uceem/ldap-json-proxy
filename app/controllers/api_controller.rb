@@ -47,11 +47,11 @@ class ApiController < ApplicationController
       results = []
       ldap.search(:base => basedn, :filter => query_filter) do |entry|
         results << entry
-        puts "DN: #{entry.dn}"
+#        puts "DN: #{entry.dn}"
         entry.each do |attribute, values|
-          puts "   #{attribute}:"
+#          puts "   #{attribute}:"
           values.each do |value|
-            puts "      --->#{value}"
+#            puts "      --->#{value}"
           end
         end
       end
@@ -60,7 +60,7 @@ class ApiController < ApplicationController
       return
     end
 
-    puts ldap.get_operation_result
+#    puts ldap.get_operation_result
 
     render :status=>200, :json => results
   end
