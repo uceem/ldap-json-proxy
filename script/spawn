@@ -5,6 +5,10 @@
 RAILS_ENV=production
 export RAILS_ENV
 
+if [ -f $HOME/.unicorn_env ]; then
+	. $HOME/.unicorn_env
+fi
+
 script_dir=`dirname "$0"`
 APP_ROOT=`dirname "$script_dir"`
 cd $APP_ROOT || exit 1
