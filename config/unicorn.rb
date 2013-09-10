@@ -24,7 +24,7 @@ after_fork do |server, worker|
     ActiveRecord::Base.establish_connection
 end
 
-app_name = "rest-ldap"
+app_name = "ldap-json-proxy"
 home_dir = "/home/rails"
 working_directory "/home/rails/deploy/#{app_name}"
 listen "#{home_dir}/sockets/rails-#{app_name}.sock"
